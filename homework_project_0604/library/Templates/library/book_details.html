@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book details</title>
+</head>
+<body>
+{% include 'library/header.html' %}
+<h2>{{ book.title}}</h2>
+<ul>
+    {% if book.author %}
+        <li>Author: {{ book.author.name }}</li> <!-- Displaying the author's name -->
+    {% else %}
+        <li>No author available</li>
+    {% endif %}
+    <li>Publishing year: {{ book.publishing_year }}</li>
+    <li>ISBN: {{ book.isbn }}</li>
+    </ul>
+
+<p><a href="{% url 'book_list' %}">Back to book list</a></p>
+</body>
+</html>

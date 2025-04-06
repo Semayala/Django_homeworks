@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Authors</title>
+</head>
+<body>
+{% include 'library/header.html' %}
+
+
+{% if authors %}
+<h3>Authors:</h3>
+    <ul>
+      {% for author in authors %}
+       <li><a href="{% url 'author_details' author_id=author.id %}">
+         ({{ author.id }}){{ author.name}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+ {% else %}
+  <p>No results matching your search criteria.</p>
+{% endif %}
+  </ul>
+</body>
+</html>
