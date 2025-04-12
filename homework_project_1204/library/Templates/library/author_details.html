@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Author Details</title>
+        {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
+</head>
+<body>
+{% include 'library/header.html' %}
+
+<h2>{{ author.name }}</h2>
+<ul>
+    <li>Date of Birth: {{ author.date_of_birth }}</li>
+    <li>Place of Birth: {{ author.place_of_birth }}</li>
+    <li>Nationality: {{ author.nationality }}</li>
+    <li>Date of Death: {{ author.date_of_death }}</li>
+    <li>Place of Death: {{ author.place_of_death }}</li>
+</ul>
+
+<h3>Books by author:</h3>
+<ul>
+    {% for book in books %}
+        <li>
+            <strong>{{ book.title }}</strong> ({{ book.publishing_year }})
+        </li>
+    {% empty %}
+        <li>No books found for this author.</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'author_list' %}">Back to author list</a></p>
+<img class='image_author' src="{% static 'image/author1.png' %}" alt="Author">
+</body>
+</html>

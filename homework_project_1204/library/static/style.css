@@ -1,0 +1,188 @@
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/static/image/books.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+}
+
+
+body {
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 40px;
+    animation:
+    slideFadeIn 1.5s ease-out forwards,
+    colorShift 3s infinite alternate;
+
+}
+
+li {
+font-size: 19px;
+}
+@keyframes slideFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes colorShift {
+    from {
+        color: #003366;
+    }
+    to {
+        color: #007bff;
+    }
+}
+
+
+.image {
+position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.image_author {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.1;
+}
+
+.icon {
+    width: 2%;
+    border: black 1px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    display: inline-block;
+    background-color: #add8e6;
+    color: #003366;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.header:hover {
+    background-color: #4e4eff;
+    color: white;
+}
+
+
+.btn {
+    display: inline-block;
+    background-color: #add8e6;
+    color: #003366;
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.btn:hover {
+    background-color: #4e4eff;
+    color: white;
+}
+
+a {
+    color: #003366;
+    text-decoration: underlined;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: blue;
+}
+
+.header a, .btn a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.header a:hover {
+    color: white;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
+    width: 15%;
+    padding: 10px 15px;
+    font-size: 12px;
+    color: #333;
+    background-color: #f4f55;
+    border: 2px solid #ccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus {
+    border-color: #007bff;
+    background-color: #e7f3ff;
+    outline: none;
+}
+
+
+input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+
+input:disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    border: 2px solid #ccc;
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover {
+    border-color: #007bff;
+}

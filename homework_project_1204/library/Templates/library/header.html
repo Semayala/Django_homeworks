@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+        {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
+</head>
+<body>
+
+
+
+<a class="header" href="{% url 'index' %}">Home</a>
+<a class="header" href="{% url 'author_list' %}">Authors</a>
+<a class="header" href="{% url 'book_list' %}">Books</a>
+
+</body>
+</html>

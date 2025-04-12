@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book details</title>
+        {% extends 'library/base.html' %}
+        {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
+</head>
+<body>
+{% block title %}Books{% endblock %}
+{% block content %}
+<h2>{{ book.title}}</h2>
+<a href="{% url 'update_book' book_id=book.id %}"><img class='icon' src="{% static 'image/edit.png' %}" alt='edit'></a>
+<ul>
+     {% if book.authors.all %}
+        <li>
+            Authors:
+            {% for author in book.authors.all %}
+                {{ author.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </li>
+    {% else %}
+        <li>No authors available</li>
+    {% endif %}
+    <li>Publishing year: {{ book.publishing_year }}</li>
+    <li>ISBN: {{ book.isbn }}</li>
+    <li>Number of pages: {{ book.number_of_pages }}</li>
+    </ul>
+{% if book.image %}
+    <p><img src="{{ book.image.url }}" alt="{{ book.title }}" width="200" /></p>
+{% else %}
+    <p>No image available</p>
+{% endif %}
+
+
+<p><a href="{% url 'book_list' %}">Back to book list</a></p>
+{% endblock %}
+</body>
+</html>
