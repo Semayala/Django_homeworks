@@ -89,7 +89,7 @@ def get_author_details(request, author_id):
 
     return render(request, 'library/author_details.html', context)
 
-
+@custom_permission_required('library.add_book')
 def add_book(request):
     print(request.GET)
     print(request.POST)

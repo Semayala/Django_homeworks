@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import redirect_to_login
 from django.urls import reverse
 
-
 def superuser_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         print(view_func)
@@ -39,8 +38,7 @@ def custom_permission_required(perm, login_url=None, raise_exception=True):
             print(f"User permissions: {user_permissions}")
 
             if not request.user.is_authenticated:
-                return redirect('login')
-                # return redirect_to_login(request.get_full_path(), login_url)
+                return redirect_to_login(request.get_full_path(), login_url or 'login')
 
             if not request.user.has_perm(perm):
                 if raise_exception:
