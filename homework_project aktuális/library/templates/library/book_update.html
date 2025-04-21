@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Book Update</title>
-        {% extends 'library/base.html' %}
-        {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
-</head>
-<body>
+{% extends 'library/base.html' %}
+{% load static %}
 
 {% block title %}Books{% endblock %}
 {% block content %}
@@ -25,5 +17,3 @@
 
 <a href="{% url 'book_details' book_id=book.id %}">Back to book</a>
 {% endblock %}
-</body>
-</html>

@@ -1,14 +1,5 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Books</title>
-        {% extends 'library/base.html' %}
-        {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
-</head>
-<body>
+{% extends 'library/base.html' %}
+{% load static %}
 
 {% block title %}Books{% endblock %}
 {% block content %}
@@ -40,6 +31,3 @@
     <p>No results matching your search criteria.</p>
 {% endif %}
 {% endblock %}
-  </ul>
-</body>
-</html>
