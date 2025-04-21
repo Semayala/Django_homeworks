@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
+</head>
+<body>
+    <div class="nav-left">
+        <a class="header" href="{% url 'index' %}">Home</a>
+        <a class="header" href="{% url 'author_list' %}">Authors</a>
+        <a class="header" href="{% url 'book_list' %}">Books</a>
+    </div>
+
+    <div class="nav-right">
+        {% if not user.is_authenticated %}
+            <form action="{% url 'login' %}" method="get">
+                <input type="submit" class="btn" value="Login">
+            </form>
+        {% else %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Logout">
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

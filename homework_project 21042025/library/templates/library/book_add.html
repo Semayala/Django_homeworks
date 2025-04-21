@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+        {% extends 'library/base.html' %}
+        {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
+</head>
+<body>
+{% block title %}Books{% endblock %}
+{% block content %}
+
+<h2>New Book:</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn" type="submit" value="Add book">
+</form>
+
+<br>
+
+<a href="{% url 'book_list' %}">Back to book list</a>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Authors</title>
+        {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}?v=1.1">
+</head>
+<body>
+{% include 'library/header.html' %}
+
+
+{% if authors %}
+<h3>Authors:</h3>
+    <ul>
+      {% for author in authors %}
+       <li><a href="{% url 'author_details' author_id=author.id %}">
+         ({{ author.id }}){{ author.name}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+ {% else %}
+  <p>No results matching your search criteria.</p>
+{% endif %}
+  </ul>
+<img class='image_author' src="{% static 'image/author1.png' %}" alt="Author">
+</body>
+</html>
