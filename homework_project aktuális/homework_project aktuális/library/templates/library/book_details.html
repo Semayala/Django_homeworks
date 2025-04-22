@@ -1,0 +1,57 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+<a href="{% if user.is_authenticated %}
+             {% url 'update_book' book_id=book.id %}
+         {% else %}
+             {% url 'login' %}?next={% url 'update_book' book_id=book.id %}
+         {% endif %}">
+    <img class="icon" src="{% static 'image/edit.png' %}" alt="edit">
+</a>
+<ul>
+    <li>Authors:
+        {% for author in book.authors.all %}
+            {{ author.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+    <li>Publishing year: {{ book.publishing_year }}</li>
+    <li>ISBN: {{ book.isbn }}</li>
+    <li>Pages: {{ book.number_of_pages }}</li>
+    <li>Available copies: {{ book.available_copies }}</li>
+    {% if has_borrowed is not None %}
+        <li>Borrowed by you: {% if has_borrowed %}Yes{% else %}No{% endif %}</li>
+    {% endif %}
+</ul>
+
+{% if book.image %}
+    <p><img src="{{ book.image.url }}" alt="{{ book.title }}" width="200" /></p>
+{% else %}
+    <p>No image available</p>
+{% endif %}
+
+{% if user.is_authenticated %}
+    {% if has_borrowed %}
+        <!-- Könyv visszaadása -->
+        <form method="POST" action="{% url 'return_book' book.id %}">
+            {% csrf_token %}
+            <button class="btn" type="submit">Return this book</button>
+        </form>
+    {% elif book.available_copies > 0 %}
+        <!-- Könyv kikölcsönzése -->
+        <form method="POST" action="{% url 'borrow_book' book.id %}">
+            {% csrf_token %}
+            <button class="btn" type="submit">Borrow this book</button>
+        </form>
+    {% else %}
+        <p>This book is currently not available.</p>
+    {% endif %}
+{% else %}
+    <p>You need to be logged in to borrow this book.</p>
+    <a class="btn" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+{% endif %}
+<br>
+<br>
+<a href="{% url 'book_list' %}">Back to book list</a>
+{% endblock %}

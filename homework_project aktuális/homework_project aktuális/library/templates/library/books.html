@@ -1,0 +1,33 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block title %}Books{% endblock %}
+{% block content %}
+
+<form method="get">
+    {{ form.as_p }}
+    <input class="btn" type="submit" value="Search">
+</form>
+
+<br>
+
+<a href="{% url 'add_book' %}">
+    <button class="btn">Add new book</button>
+</a>
+
+
+{% if books %}
+    <h3>Books:</h3>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{% url 'book_details' book_id=book.id %}">
+                    ({{ book.id }}) {{ book.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No results matching your search criteria.</p>
+{% endif %}
+{% endblock %}
