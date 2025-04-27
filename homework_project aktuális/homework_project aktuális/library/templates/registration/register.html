@@ -1,0 +1,15 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Az űrlap tartalmát a blockba helyezzük -->
+<div class="form-container">
+  <h2>Register</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ form.errors }}
+    <button type="submit" class="btn">Register</button>
+</form>
+</div>
+{% endblock %}

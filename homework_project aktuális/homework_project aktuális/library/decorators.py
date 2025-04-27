@@ -1,5 +1,4 @@
 from functools import wraps
-
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import redirect_to_login

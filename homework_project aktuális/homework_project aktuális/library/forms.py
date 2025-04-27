@@ -1,6 +1,12 @@
 from django import forms
 from django.db import models
-from .models import Book, Author, BookAuthor
+from .models import Book, Author, BookAuthor, Borrow
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class BookForm(forms.Form):
@@ -11,8 +17,6 @@ class BookForm(forms.Form):
     number_of_pages = models.CharField(max_length=10)
     available_copies = models.IntegerField(default=0)
     is_borrowed = models.BooleanField(default=False)
-
-
 
 
 class BookRegisterForm(forms.ModelForm):
@@ -55,3 +59,45 @@ class BookRegisterForm(forms.ModelForm):
             book.save()
 
         return book
+
+
+class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Username'})
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'Email'})
+    )
+    age = forms.IntegerField(required=True, validators=[MinValueValidator(18), MaxValueValidator(100)])
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2", "first_name", "last_name", "age")
+        # widgets = {
+        #     'username': forms.TextInput(attrs={'placeholder': 'Username'}),
+        #     'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+        # }
+
+
+class BookAdminForm(forms.ModelForm):
+    borrow_to_user = forms.ModelChoiceField(queryset=User.objects.all(), required=False)
+    return_from_user = forms.ModelChoiceField(
+        queryset=User.objects.none(),
+        required=False,
+        label="Return book from",
+        help_text="Select a user to return this book from."
+    )
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            active_borrows = Borrow.objects.filter(book=self.instance, returned_at__isnull=True)
+            user_ids = active_borrows.values_list('user_id', flat=True)
+            self.fields['return_from_user'].queryset = User.objects.filter(id__in=user_ids)
+            self.fields['borrow_to_user'].queryset = User.objects.exclude(id__in=user_ids)

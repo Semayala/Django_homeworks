@@ -1,0 +1,32 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>Profile Page: {{ user.username }}</h2>
+
+{% if user.first_name %}
+    <p><strong>First name:</strong> {{ user.first_name }}</p>
+{% endif %}
+
+{% if user.last_name %}
+    <p><strong>Last name:</strong> {{ user.last_name }}</p>
+{% endif %}
+
+{% if user.email %}
+    <p><strong>Email:</strong> {{ user.email }}</p>
+{% endif %}
+
+<h2>Books borrowed by you:</h2>
+<ul>
+    {% for borrow in borrowed_books %}
+        <li>
+            <strong>{{ borrow.book.title }}</strong> –
+            {{ borrow.book.authors.all|join:", " }} <br>
+            <small>Borrowed on: {{ borrow.borrowed_at|date:"Y. m. d. H:i" }}</small>
+        </li>
+    {% empty %}
+        <li>You currently have no borrowed books.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

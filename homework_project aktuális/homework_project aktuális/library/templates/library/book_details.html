@@ -20,10 +20,29 @@
     <li>ISBN: {{ book.isbn }}</li>
     <li>Pages: {{ book.number_of_pages }}</li>
     <li>Available copies: {{ book.available_copies }}</li>
-    {% if has_borrowed is not None %}
-        <li>Borrowed by you: {% if has_borrowed %}Yes{% else %}No{% endif %}</li>
-    {% endif %}
 </ul>
+{% if user.is_superuser %}
+    <h3>Borrowing History</h3>
+    <ul>
+   {% if borrow_history %}
+    <ul>
+        {% for borrow in borrow_history %}
+            <li>
+                <strong>User:</strong> {{ borrow.user.username }} <br>
+                <strong>Borrowed at:</strong> {{ borrow.borrowed_at|date:"Y. m. d. H:i" }} <br>
+                {% if borrow.returned_at %}
+                    <strong>Returned at:</strong> {{ borrow.returned_at|date:"Y. m. d. H:i" }}
+                {% else %}
+                    <strong>Status:</strong> <span style="color: red;">Not returned yet</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No borrow history available.</p>
+{% endif %}
+    </ul>
+{% endif %}
 
 {% if book.image %}
     <p><img src="{{ book.image.url }}" alt="{{ book.title }}" width="200" /></p>
@@ -33,13 +52,11 @@
 
 {% if user.is_authenticated %}
     {% if has_borrowed %}
-        <!-- Könyv visszaadása -->
         <form method="POST" action="{% url 'return_book' book.id %}">
             {% csrf_token %}
             <button class="btn" type="submit">Return this book</button>
         </form>
     {% elif book.available_copies > 0 %}
-        <!-- Könyv kikölcsönzése -->
         <form method="POST" action="{% url 'borrow_book' book.id %}">
             {% csrf_token %}
             <button class="btn" type="submit">Borrow this book</button>

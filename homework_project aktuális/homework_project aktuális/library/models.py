@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 
+
 # Create your models here.
 
 
@@ -23,7 +24,6 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     publishing_year = models.IntegerField(blank=True, null=True)
     number_of_pages = models.CharField(max_length=10)
-    # author = models.ForeignKey(Author, on_delete=models.PROTECT, related_name='books')
     authors = models.ManyToManyField(Author, through='BookAuthor', related_name='books')
     image = models.ImageField(upload_to='books/', blank=True, null=True)
     available_copies = models.IntegerField(default=0)
@@ -33,10 +33,6 @@ class Book(models.Model):
 
     def __str__(self):
         return f'{self.title}, {self.publishing_year}'
-
-    def save(self, *args, **kwargs):
-        self.is_borrowed = Borrow.objects.filter(book=self).exists()  # Ha van kölcsönzés, akkor kölcsönzött
-        super().save(*args, **kwargs)
 
 
     def calculated_available_copies(self):
@@ -63,6 +59,7 @@ class Book(models.Model):
             return True
         return False
 
+
 class Borrow(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -70,7 +67,7 @@ class Borrow(models.Model):
     returned_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        unique_together = ('user', 'book')
+        ordering = ['-borrowed_at']
 
     def __str__(self):
         return f"{self.user.username} → {self.book.title} ({self.borrowed_at.strftime('%Y-%m-%d %H:%M')})"
