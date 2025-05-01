@@ -5,13 +5,22 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
 
 class BookForm(forms.Form):
-    author = forms.CharField(max_length=200, required=False)
-    title = forms.CharField(max_length=200, required=False)
+    author = forms.CharField(
+        max_length=200,
+        required=False,
+        label=_("Author:")
+    )
+    title = forms.CharField(
+        max_length=200,
+        required=False,
+        label=_("Title:")
+    )
     publishing_year = models.IntegerField(blank=True, null=True)
     isbn = forms.CharField(max_length=200, required=False)
     number_of_pages = models.CharField(max_length=10)
@@ -23,16 +32,23 @@ class BookRegisterForm(forms.ModelForm):
     authors_input = forms.CharField(
         max_length=500,
         required=False,
-        label="Authors (separate with commas)"
+        label=_("Author(s) (separate with commas):")
     )
 
     class Meta:
         model = Book
-        fields = ['isbn', 'title', 'publishing_year', 'number_of_pages', 'image','available_copies']
+        fields = ['isbn', 'title', 'publishing_year', 'number_of_pages', 'image', 'available_copies']
+        labels = {
+            'isbn': _("ISBN:"),
+            'title': _("Title:"),
+            'publishing_year': _("Publishing Year:"),
+            'number_of_pages': _("Number of Pages:"),
+            'image': _("Cover Image:"),
+            'available_copies': _("Available Copies:"),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         if self.instance.pk:
             current_authors = self.instance.authors.all()
             self.fields['authors_input'].initial = ', '.join(
@@ -64,13 +80,18 @@ class BookRegisterForm(forms.ModelForm):
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         required=True,
-        widget=forms.TextInput(attrs={'placeholder': 'Username'})
+        label=_("Username"),
+        widget=forms.TextInput(attrs={'placeholder': _("Username")})
     )
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'Email'})
     )
-    age = forms.IntegerField(required=True, validators=[MinValueValidator(18), MaxValueValidator(100)])
+    age = forms.IntegerField(
+        required=True,
+        label=_("Age:"),
+        validators=[MinValueValidator(18), MaxValueValidator(100)]
+    )
 
     class Meta:
         model = User

@@ -1,5 +1,4 @@
 from django.urls import path
-
 from .views import index, get_books, get_book_details, get_authors, get_author_details, add_book, update_book, borrow_book, return_book, get_account, register
 
 

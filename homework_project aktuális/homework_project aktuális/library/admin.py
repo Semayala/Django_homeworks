@@ -46,16 +46,6 @@ class BookAdmin(DjangoObjectActions, admin.ModelAdmin):
     # actions = ['mark_as_borrowed', 'mark_as_available']
 
 
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-
-        if not request.user.is_superuser:
-            form.base_fields['borrow_to_user'].initial = request.user
-            form.base_fields['borrow_to_user'].disabled = True
-            form.base_fields['return_from_user'].disabled = True
-
-        return form
-
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
 
@@ -130,31 +120,6 @@ class BookAdmin(DjangoObjectActions, admin.ModelAdmin):
                 messages.warning(request, f"No active borrow found for '{book.title}'.")
 
     return_books.short_description = "Return selected books"
-
-    #
-    # def mark_as_borrowed(self, request, queryset):
-    #     for book in queryset:
-    #         if book.available_copies > 0 and not Borrow.objects.filter(book=book, user=request.user, returned_at__isnull=True).exists():
-    #             Borrow.objects.create(user=request.user, book=book)
-    #             book.available_copies -= 1
-    #             book.is_borrowed = True
-    #             book.save()
-    #             messages.success(request, f"Successfully borrowed '{book.title}' for {request.user}.")
-    #         else:
-    #             messages.warning(request, f"You already borrowed '{book.title}' or it's unavailable.")
-    #
-    # def mark_as_available(self, request, queryset):
-    #     for book in queryset:
-    #         borrow = Borrow.objects.filter(book=book, user=request.user, returned_at__isnull=True).first()
-    #         if borrow:
-    #             borrow.returned_at = timezone.now()
-    #             borrow.save()
-    #             book.available_copies += 1
-    #             book.is_borrowed = False if not Borrow.objects.filter(book=book, returned_at__isnull=True).exists() else True
-    #             book.save()
-    #             messages.success(request, f"'{book.title}' successfully returned.")
-    #         else:
-    #             messages.warning(request, f"No active borrow found for '{book.title}'.")
 
 
 

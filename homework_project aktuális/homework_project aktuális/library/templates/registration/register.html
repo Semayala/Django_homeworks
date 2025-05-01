@@ -1,15 +1,15 @@
 {% extends 'library/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
-<!-- Az űrlap tartalmát a blockba helyezzük -->
 <div class="form-container">
-  <h2>Register</h2>
+  <h2>{% trans 'Register' %}</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     {{ form.errors }}
-    <button type="submit" class="btn">Register</button>
+    <button type="submit" class="btn">{% trans 'Register' %}</button>
 </form>
 </div>
 {% endblock %}

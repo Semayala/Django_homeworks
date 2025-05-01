@@ -8,6 +8,8 @@ from .decorators import superuser_required, custom_permission_required
 from django.contrib import messages
 import logging
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils import translation
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -15,6 +17,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
+    # translation.activate('hu')
     books = Book.objects.all()
     authors = Author.objects.all()
     context = {
