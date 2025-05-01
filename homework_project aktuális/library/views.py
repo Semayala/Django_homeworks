@@ -2,19 +2,22 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Author, Borrow
-from .forms import BookForm, BookRegisterForm
+from .forms import BookForm, BookRegisterForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from .decorators import superuser_required, custom_permission_required
 from django.contrib import messages
-from django.db import IntegrityError
 import logging
-
+from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils import translation
+from django.contrib.auth.forms import UserCreationForm
 
 
 # Create your views here.
 
 
 def index(request):
+    # translation.activate('hu')
     books = Book.objects.all()
     authors = Author.objects.all()
     context = {
@@ -45,7 +48,7 @@ def get_books(request):
         if isbn:
             books = books.filter(isbn__icontains=isbn)
         if number_of_pages:
-            number_of_pages = books.filter(number_of_pages__icontains=number_of_pages)
+            books = books.filter(number_of_pages__icontains=number_of_pages)
 
     context = {
         'form': form,
@@ -56,18 +59,24 @@ def get_books(request):
 
 def get_book_details(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-
-    # Alapértelmezett érték, ha nem bejelentkezett user
-    has_borrowed = None  # Ha nincs bejelentkezve, nem jelenik meg a "Borrowed by you"
+    borrow_record = None
+    has_borrowed = False
+    borrow_history = []  # Üres lista alapértelmezettként, ha nincs kölcsönzés
 
     if request.user.is_authenticated:
-        has_borrowed = Borrow.objects.filter(user=request.user, book=book).exists()
+        borrow_record = Borrow.objects.filter(user=request.user, book=book, returned_at__isnull=True).first()
+        has_borrowed = borrow_record is not None
+
+        # Ha adminisztrátor vagy, akkor mindig az összes kölcsönzési előzményt megjelenítjük
+        if request.user.is_superuser:
+            borrow_history = Borrow.objects.filter(book=book).order_by('-borrowed_at')
 
     return render(request, 'library/book_details.html', {
         'book': book,
         'has_borrowed': has_borrowed,
+        'borrow_record': borrow_record,
+        'borrow_history': borrow_history,  # Biztosítjuk, hogy mindig megjelenjenek a kölcsönzési előzmények
     })
-
 
 def get_authors(request):
     authors = Author.objects.all()
@@ -117,8 +126,8 @@ def is_superuser(user):
 
 # @login_required
 # @user_passes_test(is_superuser)
-# @permission_required('shopping.view_products')
-# @permission_required('shopping.change_products', raise_exception=True)
+# @permission_required('library.view_book')
+# @permission_required('library.change_book', raise_exception=True)
 # @superuser_required
 @custom_permission_required('library.change_book')
 def update_book(request, book_id):
@@ -151,45 +160,44 @@ def update_book(request, book_id):
 
 logger = logging.getLogger(__name__)
 
+
 @login_required
 def borrow_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 
-    if Borrow.objects.filter(user=request.user, book=book).exists():
+    if Borrow.objects.filter(user=request.user, book=book, returned_at__isnull=True).exists():
         messages.warning(request, "You've already borrowed this book.")
     elif book.available_copies <= 0:
         messages.warning(request, "This book is currently not available.")
     else:
-        # Könyv kölcsönzése
-        Borrow.objects.create(user=request.user, book=book)  # Új kölcsönzési rekord létrehozása
-        book.available_copies -= 1  # Csökkentjük az elérhető példányokat
+        Borrow.objects.create(user=request.user, book=book)
+        book.available_copies -= 1
 
-        # Ha nincs több elérhető példány, akkor állítsuk be az is_borrowed mezőt True-ra
-        if book.available_copies == 0:
-            book.is_borrowed = True  # Könyv kölcsönzés alatt
-
+        # Mindegy, hogy hány példány maradt, a könyv most kölcsönzött
+        book.is_borrowed = True
         book.save()
 
         messages.success(request, f"You have successfully borrowed '{book.title}'.")
 
     return redirect('book_details', book_id=book.id)
 
+
 @login_required
 def return_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-
-    borrow_record = Borrow.objects.filter(user=request.user, book=book).first()
+    borrow_record = Borrow.objects.filter(user=request.user, book=book, returned_at__isnull=True).first()
 
     if borrow_record:
-        borrow_record.delete()  # Kölcsönzési rekord törlése
-        book.available_copies += 1  # Növeljük az elérhető példányokat
+        borrow_record.returned_at = timezone.now()
+        borrow_record.save()
 
-        # Ha van elérhető példány, akkor a könyv már nem kölcsönzött
-        if book.available_copies > 0:
+        book.available_copies += 1
+
+        # Csak akkor állítsuk vissza az is_borrowed-et, ha senki másnál sincs még kint
+        if not Borrow.objects.filter(book=book, returned_at__isnull=True).exists():
             book.is_borrowed = False
 
         book.save()
-
         messages.success(request, f"You have successfully returned '{book.title}'.")
     else:
         messages.warning(request, "You have not borrowed this book.")
@@ -197,4 +205,28 @@ def return_book(request, book_id):
     return redirect('book_details', book_id=book.id)
 
 
+@login_required
+def get_account(request, user_id):
+    if request.user.id != user_id:
+        return HttpResponse("Unauthorized", status=403)
+
+    user = request.user
+    borrowed_books = Borrow.objects.filter(user=user, returned_at__isnull=True).order_by('-borrowed_at')
+
+    return render(request, 'library/account.html', {
+        'user': user,
+        'borrowed_books': borrowed_books,
+    })
+
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Registration successful! Please log in.")
+            return redirect('login')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
 

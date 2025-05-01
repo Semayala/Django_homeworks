@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
+{% load i18n %}
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -9,12 +10,12 @@
 <body>
 {% include 'library/header.html' %}
 <input type="hidden" name="next" value="{{ next }}">
-<h2>Login</h2>
+<h2>{% trans 'Login' %}</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="hidden" name="next" value="{{ next }}">
-  <button class="btn" type="submit">Login</button>
+  <button class="btn" type="submit">{% trans 'Login' %}</button>
 </form>
 <br>
 

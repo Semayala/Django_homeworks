@@ -3,8 +3,8 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
     background-image: url("/static/image/books.png");
+    height: 100vh;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -15,15 +15,18 @@
 
 body {
     background-color: #f0f0f0;
+    margin: 20px;
+    padding: 0px;
+    padding-bottom: 40px;
 }
 
 h1 {
     text-align: center;
     font-size: 40px;
+    margin-top: -20px;  /* Beállítunk egy kis távolságot a tetejétől */
     animation:
-    slideFadeIn 1.5s ease-out forwards,
-    colorShift 3s infinite alternate;
-
+        slideFadeIn 1.5s ease-out forwards,
+        colorShift 3s infinite alternate;
 }
 
 li {
@@ -91,25 +94,64 @@ font-size: 19px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
 .header:hover {
     background-color: #4e4eff;
     color: white;
 }
 
-
-
-.nav-left, .nav-right {
-    display: inline-block;
-    vertical-align: middle;
+.header, .btn {
+    margin: 0 10px;  /* A gombok között kis távolság */
 }
 
+.navbar-wrapper {
+    position: relative;
+    height: 70px; /* fix magasság kell, hogy ne lógjon rá a tartalom */
+}
+
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 70px;
+    background-color: #f0f0f0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;  /* Ez tolja a két oldalt szét */
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.page-content {
+    padding-top: 0px; /* legyen nagyobb, mint a navbar height-ja */
+}
+
+/* Navigációs elemek igazítása */
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .nav-right {
-    float: right;
-    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* vagy amennyire szükséged van */
 }
 
+.nav-right form {
+    margin: 0;
+}
+
+.nav-right .btn {
+    margin: 0;
+    padding: 10px 18px;
+}
 
 
 .btn {
@@ -126,7 +168,6 @@ font-size: 19px;
     cursor: pointer;
     font-family: inherit;
 }
-
 
 .btn:hover {
     background-color: #4e4eff;
