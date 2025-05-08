@@ -23,7 +23,7 @@ body {
 h1 {
     text-align: center;
     font-size: 40px;
-    margin-top: -20px;  /* Beállítunk egy kis távolságot a tetejétől */
+    margin-top: -20px;
     animation:
         slideFadeIn 1.5s ease-out forwards,
         colorShift 3s infinite alternate;
@@ -100,12 +100,12 @@ font-size: 19px;
 }
 
 .header, .btn {
-    margin: 0 10px;  /* A gombok között kis távolság */
+    margin: 0 10px;
 }
 
 .navbar-wrapper {
     position: relative;
-    height: 70px; /* fix magasság kell, hogy ne lógjon rá a tartalom */
+    height: 70px;
 }
 
 
@@ -120,7 +120,7 @@ font-size: 19px;
     background-color: #f0f0f0;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;  /* Ez tolja a két oldalt szét */
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -128,10 +128,10 @@ font-size: 19px;
 
 
 .page-content {
-    padding-top: 0px; /* legyen nagyobb, mint a navbar height-ja */
+    padding-top: 0px;
 }
 
-/* Navigációs elemek igazítása */
+
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
@@ -141,7 +141,7 @@ font-size: 19px;
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 15px; /* vagy amennyire szükséged van */
+    gap: 15px;
 }
 
 .nav-right form {
@@ -247,4 +247,29 @@ form {
 .logout-form .btn {
     margin: 0;
     padding: 10px 18px;
+}
+
+.hidden {
+    display: none;
+}
+
+#language-selector {
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#language-selector:hover {
+    background-color: #e6e6e6;
+}
+
+#language-selector:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 3px rgba(0,123,255,0.5);
 }

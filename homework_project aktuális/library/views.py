@@ -1,4 +1,4 @@
-
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Author, Borrow
@@ -8,6 +8,7 @@ from .decorators import superuser_required, custom_permission_required
 from django.contrib import messages
 import logging
 from django.utils import timezone
+from django.conf import settings
 from django.utils.translation import gettext as _
 from django.utils import translation
 from django.contrib.auth.forms import UserCreationForm
@@ -229,4 +230,15 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def set_language(request):
+    if request.method == 'POST':
+        language = request.POST.get('language')
+        if language in dict(settings.LANGUAGES):
+            translation.activate(language)
+            response = redirect(request.POST.get('next', '/'))
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
+            return response
+    return redirect('/')
 
