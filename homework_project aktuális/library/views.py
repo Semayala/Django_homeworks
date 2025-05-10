@@ -194,7 +194,6 @@ def return_book(request, book_id):
 
         book.available_copies += 1
 
-        # Csak akkor állítsuk vissza az is_borrowed-et, ha senki másnál sincs még kint
         if not Borrow.objects.filter(book=book, returned_at__isnull=True).exists():
             book.is_borrowed = False
 

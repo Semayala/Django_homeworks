@@ -253,23 +253,50 @@ form {
     display: none;
 }
 
-#language-selector {
-    padding: 6px 12px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #f8f8f8;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+.language-selector {
+  position: relative;
+  display: inline-block;
 }
 
-#language-selector:hover {
-    background-color: #e6e6e6;
+.language-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #41B8F0;
 }
 
-#language-selector:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 3px rgba(0,123,255,0.5);
+.language-btn:hover {
+  color: #ADD8E6;
 }
+
+.language-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 160px;
+  padding: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.language-dropdown.show {
+  display: block;
+  opacity: 1;
+}
+
+.language-dropdown select {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+

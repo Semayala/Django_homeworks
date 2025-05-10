@@ -94,9 +94,7 @@ class BookAdmin(DjangoObjectActions, admin.ModelAdmin):
 
 
     def return_borrower(self, obj):
-        """
-        Return a book from a specific borrower.
-        """
+        # Return a book from a specific borrower.
         borrows = Borrow.objects.filter(book=obj, returned_at__isnull=True)
         if borrows.exists():
             borrower = borrows.first().user
