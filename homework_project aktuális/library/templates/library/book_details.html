@@ -1,0 +1,76 @@
+{% extends 'library/base.html' %}
+{% load static %}
+    {% load i18n %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+<a href="{% if user.is_authenticated %}
+             {% url 'update_book' book_id=book.id %}
+         {% else %}
+             {% url 'login' %}?next={% url 'update_book' book_id=book.id %}
+         {% endif %}">
+    <img class="icon" src="{% static 'image/edit.png' %}" alt="edit">
+</a>
+<ul>
+    <li>{% trans 'Author(s):' %}
+        {% for author in book.authors.all %}
+            {{ author.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+    <li>{% trans 'Publishing year:' %} {{ book.publishing_year }}</li>
+    <li>ISBN: {{ book.isbn }}</li>
+    <li>{% trans 'Pages:' %}: {{ book.number_of_pages }}</li>
+    <li>{% trans 'Available copies' %}: {{ book.available_copies }}</li>
+</ul>
+{% if user.is_superuser %}
+    <h3>{% trans 'Borrowing History' %}</h3>
+    <ul>
+   {% if borrow_history %}
+    <ul>
+        {% for borrow in borrow_history %}
+            <li>
+                <strong>{% trans 'User:' %}</strong> {{ borrow.user.username }} <br>
+                <strong>{% trans 'Borrowed at:' %}</strong> {{ borrow.borrowed_at|date:"Y. m. d. H:i" }} <br>
+                {% if borrow.returned_at %}
+                    <strong>{% trans 'Returned at:' %}</strong> {{ borrow.returned_at|date:"Y. m. d. H:i" }}
+                {% else %}
+                    <strong>{% trans 'Status:' %}</strong> <span style="color: red;">{% trans 'Not returned yet.' %}</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>{% trans 'No borrow history available.' %}</p>
+{% endif %}
+    </ul>
+{% endif %}
+
+{% if book.image %}
+    <p><img src="{{ book.image.url }}" alt="{{ book.title }}" width="200" /></p>
+{% else %}
+    <p>{% trans 'No image available.' %}/p>
+{% endif %}
+
+{% if user.is_authenticated %}
+    {% if has_borrowed %}
+        <form method="POST" action="{% url 'return_book' book.id %}">
+            {% csrf_token %}
+            <button class="btn" type="submit">{% trans 'Return this book' %}</button>
+        </form>
+    {% elif book.available_copies > 0 %}
+        <form method="POST" action="{% url 'borrow_book' book.id %}">
+            {% csrf_token %}
+            <button class="btn" type="submit">{% trans 'Borrow this book' %}</button>
+        </form>
+    {% else %}
+        <p>{% trans 'This book is currently not available.' %}</p>
+    {% endif %}
+{% else %}
+    <p>{% trans 'You need to be logged in to borrow this book.' %}</p>
+
+    <a class="btn" href="{% url 'login' %}?next={{ request.path }}">{% trans 'Login' %}</a>
+{% endif %}
+<br>
+<br>
+<a href="{% url 'book_list' %}">{% trans 'Back to book list' %}</a>
+{% endblock %}

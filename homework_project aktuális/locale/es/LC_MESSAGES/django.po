@@ -1,0 +1,278 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-08 07:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+#: library/filters.py:7
+msgid "publishing year"
+msgstr ""
+
+#: library/forms.py:17
+msgid "Author:"
+msgstr "Autor"
+
+#: library/forms.py:22 library/forms.py:43
+msgid "Title:"
+msgstr "Título"
+
+#: library/forms.py:35
+msgid "Author(s) (separate with commas):"
+msgstr "Autor(es) (separalos con comas):"
+
+#: library/forms.py:42
+msgid "ISBN:"
+msgstr ""
+
+#: library/forms.py:44
+msgid "Publishing Year:"
+msgstr "Año de publicación:"
+
+#: library/forms.py:45
+msgid "Number of Pages:"
+msgstr "Numero de páginas:"
+
+#: library/forms.py:46
+msgid "Cover Image:"
+msgstr "Imágen:"
+
+#: library/forms.py:47
+msgid "Available Copies"
+msgstr "Copias disponibles"
+
+#: library/forms.py:83 library/forms.py:84
+msgid "Username"
+msgstr "Nombre de usuario:"
+
+#: library/forms.py:92
+msgid "Age:"
+msgstr "Edad:"
+
+#: library/templates/library/account.html:7
+msgid "Profile page:"
+msgstr "Página de perfil:"
+
+#: library/templates/library/account.html:10
+msgid "First name:"
+msgstr "Nombre:"
+
+#: library/templates/library/account.html:14
+msgid "Last name:"
+msgstr "Apellido:"
+
+#: library/templates/library/account.html:18
+msgid "Email:"
+msgstr "Correo electronico:"
+
+#: library/templates/library/account.html:21
+msgid "Books borrowed by you:"
+msgstr "Libros prestados por Usted:"
+
+#: library/templates/library/account.html:27
+msgid "Borrowed on:"
+msgstr "Prestado el:"
+
+#: library/templates/library/account.html:30
+msgid "You currently have no borrowed books."
+msgstr "Actualmente no tiene libros prestados."
+
+#: library/templates/library/author_details.html:15
+msgid "Date of Birth:"
+msgstr "Fecha de nacimiento:"
+
+#: library/templates/library/author_details.html:16
+msgid "Place of Birth:"
+msgstr "Lugar de nacimiento:"
+
+#: library/templates/library/author_details.html:17
+msgid "Nationality:"
+msgstr "Nacionalidad:"
+
+#: library/templates/library/author_details.html:18
+msgid "Date of Death:"
+msgstr "Fecha de defunción:"
+
+#: library/templates/library/author_details.html:19
+msgid "Place of Death:"
+msgstr "Lugar de defunción:"
+
+#: library/templates/library/author_details.html:22
+msgid "Books by author:"
+msgstr "Libros por el autor:"
+
+#: library/templates/library/author_details.html:29
+msgid "No books found for this author."
+msgstr "No se han encontrado libros para este autor."
+
+#: library/templates/library/author_details.html:34
+msgid "Back to author list"
+msgstr "Volver a la lista de autores"
+
+#: library/templates/library/authors.html:15
+msgid "Authors:"
+msgstr "Autores:"
+
+#: library/templates/library/authors.html:24
+#: library/templates/library/books.html:32
+msgid "No results matching your search criteria."
+msgstr "No hay resultados que coincidan con sus criterios de búsqueda."
+
+#: library/templates/library/book_add.html:7
+msgid "New book:"
+msgstr "Nuevo libro:"
+
+#: library/templates/library/book_add.html:12
+msgid "Add book"
+msgstr "Añadir libro"
+
+#: library/templates/library/book_add.html:17
+#: library/templates/library/book_details.html:75
+msgid "Back to book list"
+msgstr "Volver a la lista de libros"
+
+#: library/templates/library/book_details.html:15
+msgid "Author(s):"
+msgstr "Autor(es):"
+
+#: library/templates/library/book_details.html:20
+msgid "Publishing year:"
+msgstr "Año de publicación:"
+
+#: library/templates/library/book_details.html:22
+msgid "Pages:"
+msgstr "Numero de páginas:"
+
+#: library/templates/library/book_details.html:23
+msgid "Available copies"
+msgstr "Copias disponibles"
+
+#: library/templates/library/book_details.html:26
+msgid "Borrowing History"
+msgstr "Historia de préstamos:"
+
+#: library/templates/library/book_details.html:32
+msgid "User:"
+msgstr "Usuario:"
+
+#: library/templates/library/book_details.html:33
+msgid "Borrowed at:"
+msgstr "Prestado el:"
+
+#: library/templates/library/book_details.html:35
+msgid "Returned at:"
+msgstr "Devuelto el:"
+
+#: library/templates/library/book_details.html:37
+msgid "Status:"
+msgstr "Estado:"
+
+#: library/templates/library/book_details.html:37
+msgid "Not returned yet."
+msgstr "No está devuelto todavía."
+
+#: library/templates/library/book_details.html:43
+msgid "No borrow history available."
+msgstr "No hay historia de préstamos disonible."
+
+#: library/templates/library/book_details.html:51
+msgid "No image available."
+msgstr "No hay imagen disponible."
+
+#: library/templates/library/book_details.html:58
+msgid "Return this book"
+msgstr "Devolver este libro"
+
+#: library/templates/library/book_details.html:63
+msgid "Borrow this book"
+msgstr "Prestar este libro"
+
+#: library/templates/library/book_details.html:66
+msgid "This book is currently not available."
+msgstr "Este libro no está disponible actualmente."
+
+#: library/templates/library/book_details.html:69
+msgid "You need to be logged in to borrow this book."
+msgstr "Necesita iniciar sesión para tomar prestado este libro."
+
+#: library/templates/library/book_details.html:71
+#: library/templates/library/header.html:42
+#: library/templates/registration/login.html:13
+#: library/templates/registration/login.html:18
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: library/templates/library/book_update.html:9
+msgid "Update Book:"
+msgstr "Actualizar este libro: "
+
+#: library/templates/library/book_update.html:14
+msgid "Update"
+msgstr "Actualizar"
+
+#: library/templates/library/book_update.html:19
+msgid "Back to book"
+msgstr "Volver al libro"
+
+#: library/templates/library/books.html:10
+msgid "Search"
+msgstr "Buscar"
+
+#: library/templates/library/books.html:16
+msgid "Add new book"
+msgstr "Añadir nuevo libro"
+
+#: library/templates/library/books.html:21
+msgid "Books:"
+msgstr "Libros:"
+
+#: library/templates/library/header.html:7
+msgid "Header"
+msgstr ""
+
+#: library/templates/library/header.html:14
+msgid "Home"
+msgstr ""
+
+#: library/templates/library/header.html:15
+msgid "Authors"
+msgstr "Autores"
+
+#: library/templates/library/header.html:16
+msgid "Books"
+msgstr "Libros"
+
+#: library/templates/library/header.html:37
+msgid "My account"
+msgstr "Mi Página de Perfil"
+
+#: library/templates/library/header.html:45
+#: library/templates/registration/register.html:7
+#: library/templates/registration/register.html:12
+msgid "Register"
+msgstr "Registrarse"
+
+#: library/templates/library/header.html:50
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: library/templates/library/index.html:16
+msgid "Welcome to the library"
+msgstr "Bienvenido a la biblioteca"
+
+#: library/templates/library/index.html:18
+msgid "Welcome to the library!"
+msgstr "Bienvenido a la biblioteca!"

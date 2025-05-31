@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+    {% load i18n %}
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+{% include 'library/header.html' %}
+
+{% if user.is_authenticated %}
+<br>
+  <h1>{% trans 'Welcome to the library' %}, {{ user.username }}!</h1>
+{% else %}
+  <h1>{% trans 'Welcome to the library!' %}</h1>
+{% endif %}
+
+<img class='image' src="{% static 'image/library.png' %}" alt="Library">
+</body>
+</html>

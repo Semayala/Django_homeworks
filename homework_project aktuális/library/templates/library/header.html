@@ -1,0 +1,81 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Header" %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}?v=1.2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        function toggleLanguageDropdown() {
+          const dropdown = document.getElementById('language-dropdown');
+          dropdown.classList.toggle('show');
+        }
+
+        window.addEventListener('click', function (e) {
+          const button = document.querySelector('.language-btn');
+          const dropdown = document.getElementById('language-dropdown');
+          if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('show');
+          }
+        });
+    </script>
+</head>
+<body>
+<div class="navbar-wrapper">
+    <nav class="navbar">
+        <div class="nav-left">
+            <a class="header" href="{% url 'index' %}">{% trans 'Home' %}</a>
+            <a class="header" href="{% url 'author_list' %}">{% trans 'Authors' %}</a>
+            <a class="header" href="{% url 'book_list' %}">{% trans 'Books' %}</a>
+        </div>
+
+        <div class="nav-right">
+            <form action="/set_language/" method="post" id="language-form">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+
+                <div class="language-selector">
+                    <button type="button" class="language-btn" onclick="toggleLanguageDropdown()">
+                        <i class="fas fa-globe"></i>
+                    </button>
+                    <div id="language-dropdown" class="language-dropdown">
+                        <select name="language" onchange="document.getElementById('language-form').submit();">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% for code, name in LANGUAGES %}
+                            <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                                {{ name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <!-- Account / Auth Buttons -->
+            {% if user.is_authenticated and request.resolver_match.url_name != 'account' %}
+            <form action="{% url 'account' user.id %}" method="get">
+                <input type="submit" class="btn" value="{% trans 'My account' %}">
+            </form>
+            {% endif %}
+            {% if not user.is_authenticated and request.resolver_match.url_name != 'register' %}
+            <form action="{% url 'login' %}" method="get">
+                <input type="submit" class="btn" value="{% trans 'Login' %}">
+            </form>
+            <form action="{% url 'register' %}" method="get">
+                <input type="submit" class="btn" value="{% trans 'Register' %}">
+            </form>
+            {% elif user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="{% trans 'Logout' %}">
+            </form>
+            {% endif %}
+        </div>
+    </nav>
+</div>
+<div class="page-content">
+</div>
+</body>
+</html>

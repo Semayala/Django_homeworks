@@ -1,0 +1,20 @@
+{% extends 'library/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}Books{% endblock %}
+{% block content %}
+
+<h2>{% trans 'New book:' %}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn" type="submit" value="{% trans 'Add book' %}">
+</form>
+
+<br>
+
+<a href="{% url 'book_list' %}">{% trans 'Back to book list' %}</a>
+{% endblock %}
+</body>
+</html>
